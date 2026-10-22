@@ -66,4 +66,16 @@ class TrainingServiceTest {
         assertEquals(2, training.getParticipants().size());
         assertTrue(spy.lastMessage.contains("нет мест"));
     }
+
+    @Test
+    void shouldNotAllowEnrollingToFullTraining() {
+        Training fullTraining = new Training("TR2", "Кроссфит", new Trainer("T2", "Петр", "Кроссфит"), 1);
+        repository.save(fullTraining);
+
+        service.enrollClient("TR2", new Client("C10", "Игорь"));
+        boolean result = service.enrollClient("TR2", new Client("C11", "Олег"));
+
+        assertFalse(result, "Второй клиент не должен записаться, мест нет");
+        assertEquals(1, fullTraining.getParticipants().size());
+    }
 }
