@@ -68,7 +68,7 @@ class TrainingServiceTest {
     }
 
     @Test
-    void shouldNotAllowEnrollingToFullTraining() {
+    void shouldNotAllowEnrollingToFullTraining2() {
         Training fullTraining = new Training("TR2", "Кроссфит", new Trainer("T2", "Петр", "Кроссфит"), 1);
         repository.save(fullTraining);
 
