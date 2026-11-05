@@ -18,7 +18,7 @@ public class Client {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Client)) return false;
-        Client client = (Client) o;
+        Client client=(Client) o;
         return Objects.equals(id, client.id);
     }
 
