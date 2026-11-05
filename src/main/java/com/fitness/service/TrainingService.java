@@ -18,25 +18,26 @@ public class TrainingService {
     }
 
     public boolean enrollClient(String trainingId, Client client) {
-        logger.info("Попытка записи клиента {} на тренировку {}", client.getName(), trainingId);
-
+        logger.info("Attempt to sign up a client {} for a training session {}", client.getName(), trainingId);
+        // Попытка записи клиента {} на тренировку {}
         Training training = repository.findById(trainingId)
-                .orElseThrow(() -> new IllegalArgumentException("Тренировка не найдена: " + trainingId));
+                .orElseThrow(() -> new IllegalArgumentException("Training session not found:" + trainingId));
 
         if (training.isFull()) {
-            logger.warn("Отказ в записи: на тренировке {} нет свободных мест", trainingId);
-            notificationService.notify("Отказ: на тренировку \"" + training.getTitle() + "\" больше нет мест.");
+            logger.warn("Refusal to register: there are no empty seats at the training {}", trainingId);
+            // Отказ в записи: на тренировке {} нет свободных мест
+            notificationService.notify("Refusal: for training \"" + training.getTitle() + "\" There are no more seats.");
             return false;
         }
 
         boolean added = training.addParticipant(client);
         if (added) {
             repository.save(training);
-            logger.info("Клиент {} успешно записан на тренировку {}", client.getName(), trainingId);
-            notificationService.notify("Клиент " + client.getName() + " записан на \"" + training.getTitle() + "\".");
+            logger.info("Client {} successfully signed up for training {}", client.getName(), trainingId);
+            notificationService.notify("Client " + client.getName() + " signed up for \"" + training.getTitle() + "\".");
         } else {
-            logger.error("Ошибка записи: клиент {} уже был записан на тренировку {}", client.getName(), trainingId);
-            notificationService.notify("Клиент " + client.getName() + " уже записан.");
+            logger.error("Recording error: client {} has already been signed up for training {}", client.getName(), trainingId);
+            notificationService.notify("Client " + client.getName() + " It's already been recorded.");
         }
         return added;
     }

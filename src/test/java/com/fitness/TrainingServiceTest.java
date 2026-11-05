@@ -30,40 +30,40 @@ class TrainingServiceTest {
         spy = new NotificationSpy();
         service = new TrainingService(repository, spy);
 
-        Trainer trainer = new Trainer("T1", "Саймон", "Марафон");
-        training = new Training("TR1", "Йога", trainer, 2);
+        Trainer trainer = new Trainer("T1", "Simon", "Marathon");
+        training = new Training("TR1", "Yoga", trainer, 2);
         repository.save(training);
     }
 
     @Test
     void shouldEnrollClientSuccessfully() {
-        boolean result = service.enrollClient("TR1", new Client("C1", "Вадим"));
+        boolean result = service.enrollClient("TR1", new Client("C1", "Vadim"));
         assertTrue(result);
         //assertFalse(result);
         assertEquals(1, training.getParticipants().size());
-        assertTrue(spy.lastMessage.contains("записан"));
+        assertTrue(spy.lastMessage.contains("recorded"));
     }
 
     @Test
     void shouldRejectDuplicateEnrollment() {
-        Client vadim = new Client("C1", "Вадим");
+        Client vadim = new Client("C1", "Vadim");
         service.enrollClient("TR1", vadim);
         boolean second = service.enrollClient("TR1", vadim);
 
         assertFalse(second);
         assertEquals(1, training.getParticipants().size());
-        assertTrue(spy.lastMessage.contains("уже записан"));
+        assertTrue(spy.lastMessage.contains("already recorded"));
     }
 
     @Test
     void shouldRejectEnrollmentWhenTrainingIsFull() {
-        service.enrollClient("TR1", new Client("C1", "Вадим"));
-        service.enrollClient("TR1", new Client("C2", "Леша"));
+        service.enrollClient("TR1", new Client("C1", "Vadim"));
+        service.enrollClient("TR1", new Client("C2", "Alex"));
 
-        boolean third = service.enrollClient("TR1", new Client("C3", "Влад"));
+        boolean third = service.enrollClient("TR1", new Client("C3", "Vlad"));
 
         assertFalse(third);
         assertEquals(2, training.getParticipants().size());
-        assertTrue(spy.lastMessage.contains("нет мест"));
+        assertTrue(spy.lastMessage.contains("There are no seats"));
     }
 }
