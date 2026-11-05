@@ -41,7 +41,7 @@ class TrainingServiceTest {
         assertTrue(result);
         //assertFalse(result);
         assertEquals(1, training.getParticipants().size());
-        assertTrue(spy.lastMessage.contains("recorded"));
+        assertTrue(spy.lastMessage.contains("signed up"));
     }
 
     @Test
@@ -52,7 +52,7 @@ class TrainingServiceTest {
 
         assertFalse(second);
         assertEquals(1, training.getParticipants().size());
-        assertTrue(spy.lastMessage.contains("already recorded"));
+        assertTrue(spy.lastMessage.contains("already been recorded"));
     }
 
     @Test
@@ -64,6 +64,6 @@ class TrainingServiceTest {
 
         assertFalse(third);
         assertEquals(2, training.getParticipants().size());
-        assertTrue(spy.lastMessage.contains("There are no seats"));
+        assertTrue(spy.lastMessage.contains("no more seats"));
     }
 }
