@@ -4,9 +4,7 @@
     <module name="TreeWalker">
         <module name="UnusedImports"/>
         <module name="WhitespaceAround"/>
-        <!-- Запрещает пустые блоки catch -->
         <module name="EmptyCatchBlock"/>
-        <!-- Имена классов должны быть с большой буквы -->
         <module name="TypeName"/>
     </module>
 </module>
